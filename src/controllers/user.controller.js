@@ -5,7 +5,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 
-const generateAccessandRefreshToken = async(userId){
+const generateAccessandRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId)
         const accessToken = user.generateAccessToken()
@@ -79,7 +79,7 @@ const registerUser = asyncHandler( async (req, res) => {
 
 const loginUser = asyncHandler(async(req,res) => {
 const {email,username,password} = req.body
-if(!username || !email){
+if(!username && !email){
     throw new ApiError(400,"Username or email is required")
 }
 
@@ -119,6 +119,7 @@ return res.status(200).cookie("accessToken",accessToken,options)
         "User logged In successfully"
     )
 )
+})
 
 const logoutUser = asyncHandler(async (req,res ) => {
    await User.findByIdAndUpdate(req.user._id, {
@@ -139,4 +140,4 @@ const logoutUser = asyncHandler(async (req,res ) => {
 })
 
 
-export {registerUser , loginUser,logoutUser};
+export {registerUser , loginUser  ,logoutUser};
